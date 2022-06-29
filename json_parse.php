@@ -14,7 +14,7 @@ $conn = $db->getConnection();
 
 
 
-// you can whatever you want ... as instance use the object
+// you can do here whatever you want ... just have attention to use json_encode to parse data
 $email =  filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL);
 if(!$email){
     $response = ['email'=> 'Email is not valid !' ];
