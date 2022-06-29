@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <style type="text/css">
+    input{
+        margin: 10px;
+        display:block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        background-color:#d8d8d8;
+        text-indent: 6px;
+    }
+    button{
+      margin: 10px;
+      display:block; 
+    }
+    #errors{ color: red; font-size: 11px;}
+/* we will explain what these classes do next! */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+  </style>    
+    </head>
+    <body>
+        <script src="https://unpkg.com/vue@3"></script>
+        <script src='https://unpkg.com/axios/dist/axios.min.js'></script>
+
+
+     
+        <div id="app" v-cloak>
+            <custom-form />
+            </div>
+
+     <script>
+
+    let app = Vue.createApp({
+        data() {
+                return {
+                greetings: [],  
+                }
+        },
+
+        methods: {}
+    })
+
+    app.component( 'custom-form', {
+    template : ` <form @submit.prevent="ValidateForm" novalidate="true">
+        <h1>{{ title }}</h1>
+        
+        <p  v-if="errors.length">
+          <transition name="fade">
+           
+          <ul>
+            <li id="errors" v-for="error in errors">
+              {{error}}
+            </li>
+          </ul>
+       
+        </transition>
+        </p>
+  
+   
+        <input type="email" v-model="email" />
+        <input type="password" v-model="password" />
+        <button  @click="show = !show">Log-in</button>
+    </form>
+
+    <hr/>
+
+      <ul>
+        <li id="errors" v-for="user in users">
+          {{ user }}
+        </li>
+      </ul>`,
+
+      data(){
+        return {
+        errors : [],
+        users  : [],
+        title : 'Login Form',
+        email : '',
+        password : ''
+        }
+   },
+          
+ 
+     methods  :{
+      
+        ValidateForm  : function(){
+        this.errors = [];
+        this.users  = [];
+        if(!this.email) { this.errors.push("You must provide a valid email!");}
+        if(!this.password) { this.errors.push("You must provide a valid password!");}
+            if(this.email && this.password){
+                  
+                var bodyFormData = new FormData();
+                        bodyFormData.append("email", this.email);
+                        bodyFormData.append("passw", this.password);
+
+                        axios.post("json_parse.php",  bodyFormData )
+                     .then(response => {
+                      this.users.push( response.data.email);
+                      console.log(response.data.email);
+                    }
+                     
+                     );
+            }
+        }
+
+    },
+
+      
+
+    })
+    app.mount('#app');
+     </script>
+
+
+
+        </body>
+    </html>

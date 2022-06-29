@@ -1,0 +1,9 @@
+const config = {
+    responseType: 'text'
+},
+
+module.exports = {
+    devServer: {
+    proxy: ' 192.168.1.85', //your ip here (using localhost will retrive Cors errors)
+    }
+}
