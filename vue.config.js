@@ -4,6 +4,6 @@ const config = {
 
 module.exports = {
     devServer: {
-    proxy: ' 192.168.1.85', //your ip here (using localhost will retrive Cors errors)
+    proxy: ' 192.168.*.*', //your ip here (using localhost will retrive Cors errors)
     }
 }
